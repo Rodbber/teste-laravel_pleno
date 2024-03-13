@@ -42,6 +42,7 @@ export default defineComponent({
           key: "name",
         },
         { title: "Preço", key: "price", align: "center", sortable: true },
+        { title: "Categoria", key: "category.name", align: "center", sortable: true },
         { title: "Ações", key: "actions", sortable: false },
       ],
     };

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(Request $request){
-        return $this->applyFilters($request, Product::class);
+        return $this->applyFilters($request, Product::class, ['category']);
     }
 
     public function getAllPriceGreaterThan($price){

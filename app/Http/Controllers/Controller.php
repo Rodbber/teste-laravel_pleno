@@ -11,10 +11,10 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function applyFilters(Request $request, $model)
+    public function applyFilters(Request $request, $model, $with = [])
     {
         $model = new $model;
-        $model = $model->search($request->search);
+        $model = $model->with($with)->search($request->search);
         if ($request->has('sortBy')) {
             foreach ($request->sortBy as $valeu) {
                 $model->orderBy($valeu['key'], $valeu['order']);

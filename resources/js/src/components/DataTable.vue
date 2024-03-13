@@ -18,7 +18,7 @@
           hide-details
           v-model="value"
           @input="priceGreaterThan"
-            type="number"
+          type="number"
         ></v-text-field>
       </v-col>
       <v-col cols="3">
@@ -43,6 +43,12 @@
       item-value="name"
       @update:options="loadItems"
     >
+      <template v-slot:item.price="{ item }">
+        <span v-if="item.price !== null">
+          {{ formatData.price(item.price) }}
+        </span>
+        <span v-else>-</span>
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon
           size="small"
@@ -163,7 +169,7 @@ export default defineComponent({
           itemsPerPage,
           sortBy,
           search: this.search,
-          value: this.value
+          value: this.value,
         },
       });
     },
@@ -172,14 +178,14 @@ export default defineComponent({
       this.getData({ page, itemsPerPage, sortBy, search: this.search }).then(
         ({ data: { data: items, total } }) => {
           this.serverItems = items;
-          if (this.formatData) {
-            this.serverItems.map((item) => {
-              for (let i in this.formatData) {
-                item[i] = this.formatData[i](item[i]);
-              }
-              return item;
-            });
-          }
+        //   if (this.formatData) {
+        //     this.serverItems.map((item) => {
+        //       for (let i in this.formatData) {
+        //         item[i] = this.formatData[i](item[i]);
+        //       }
+        //       return item;
+        //     });
+        //   }
           this.totalItems = total;
           this.loading = false;
         }
@@ -205,8 +211,8 @@ export default defineComponent({
           console.log(e);
         });
     },
-    priceGreaterThan(){
-        axios
+    priceGreaterThan() {
+      axios
         .get(`${this.urlBaseData}/price-greater-than/${this.value}`)
         .then((r) => {
           this.loadItems({ page: 1, itemsPerPage: this.itemsPerPage });
@@ -214,7 +220,7 @@ export default defineComponent({
         .catch((e) => {
           console.log(e);
         });
-    }
+    },
   },
 });
 </script>
